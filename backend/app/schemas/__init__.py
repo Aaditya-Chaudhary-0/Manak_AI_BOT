@@ -1,0 +1,1 @@
+# ManakAI Schemas Package

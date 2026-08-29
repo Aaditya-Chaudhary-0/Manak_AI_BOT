@@ -1,7 +1,8 @@
 import uuid
 from datetime import datetime, date
 from typing import Optional, List
-from sqlalchemy import String, Text, DateTime, Date, ForeignKey, Index, UniqueConstraint
+from sqlalchemy import String, Text, DateTime, Date, ForeignKey, Index, UniqueConstraint, Computed
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
@@ -52,6 +53,14 @@ class Standard(Base):
         default=datetime.utcnow,
         nullable=False
     )
+    search_vector: Mapped[Optional[str]] = mapped_column(
+        TSVECTOR,
+        Computed(
+            "to_tsvector('english', coalesce(title,'') || ' ' || coalesce(scope,''))",
+            persisted=True
+        ),
+        nullable=True
+    )
 
     # Relationships
     source: Mapped[Optional["Source"]] = relationship(
@@ -63,7 +72,7 @@ class Standard(Base):
         back_populates="standard"
     )
 
-    # Table arguments for the GIN trigram index
+    # Table arguments for the GIN trigram and search vector indices
     __table_args__ = (
         Index(
             "idx_standards_title_trgm",
@@ -71,6 +80,11 @@ class Standard(Base):
             postgresql_using="gin",
             postgresql_ops={"title": "gin_trgm_ops"}
         ),
+        Index(
+            "idx_standards_search_vector",
+            "search_vector",
+            postgresql_using="gin"
+        )
     )
 
     def __repr__(self) -> str:

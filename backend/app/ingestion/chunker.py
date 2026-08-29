@@ -49,13 +49,20 @@ def count_tokens(text: str) -> int:
 
 def split_sentences(text: str) -> List[str]:
     """
-    Splits text into sentences. Avoids splitting after 'IS' (e.g. 'IS 16101')
-    to prevent breaking Indian Standard codes.
+    Splits text into sentences and line blocks.
+    Splits on sentence terminals (. ! ?) or paragraph breaks (newlines).
+    Avoids splitting after 'IS' (e.g. 'IS 16101') or abbreviations like i.e./e.g.
     """
     # Negative lookbehind for 'IS', capital letters (like standard designations), and abbreviations like i.e./e.g.
-    sentence_end = re.compile(r'(?<!\bIS)(?<!\b[A-Z])(?<!\b[a-z]\.[a-z]\.)(?<=[.!?])\s+')
-    sentences = sentence_end.split(text)
-    return [s.strip() for s in sentences if s.strip()]
+    sentence_end = re.compile(r'(?<!\bIS)(?<!\b[A-Z])(?<!\b[a-z]\.[a-z]\.)(?<=[.!?])\s+|\n\s*\n')
+    raw_splits = sentence_end.split(text)
+    
+    sentences = []
+    for s in raw_splits:
+        lines = [line.strip() for line in s.split('\n') if line.strip()]
+        sentences.extend(lines)
+        
+    return [s for s in sentences if s]
 
 
 def pack_sentences(sentences: List[str], max_tokens: int, min_tokens: int, overlap_count: int) -> List[str]:
@@ -110,11 +117,44 @@ def chunk_document(raw_text: str, elements: List[Dict[str, Any]], source_type: s
         - 'chunk_index': Position index starting at 0.
     """
     chunks = []
+
+    # 1. Page-based PDF chunking (when elements contains page elements)
+    if elements and any(e.get("type") == "page" for e in elements):
+        total_sentences = 0
+        chunk_index = 0
+        page_elements = [e for e in elements if e.get("type") == "page"]
+        
+        for elem in page_elements:
+            page_text = elem.get("content", "").strip()
+            if not page_text:
+                continue
+            
+            sentences = split_sentences(page_text)
+            total_sentences += len(sentences)
+            packed = pack_sentences(
+                sentences,
+                max_tokens=MAX_CHUNK_TOKENS,
+                min_tokens=MIN_CHUNK_TOKENS,
+                overlap_count=OVERLAP_SENTENCES
+            )
+            for text in packed:
+                chunks.append({
+                    "text": text,
+                    "is_table": False,
+                    "chunk_index": chunk_index
+                })
+                chunk_index += 1
+
+        logger.info(
+            "Pages=%d Sentences=%d Chunks=%d",
+            len(page_elements),
+            total_sentences,
+            len(chunks)
+        )
+        return chunks
     
-    # 1. FAQ specific chunking: chunk per Q&A pair
+    # 2. FAQ specific chunking: chunk per Q&A pair
     if source_type == "faq" or "faq" in raw_text.lower():
-        # Group elements by Q&A pairs. 
-        # Typically a heading or a paragraph starting with Q: or Question is followed by answers.
         qa_pairs = []
         current_qa = []
         
@@ -123,7 +163,6 @@ def chunk_document(raw_text: str, elements: List[Dict[str, Any]], source_type: s
             if not content:
                 continue
                 
-            # Detect start of a new Q&A pair
             is_new_question = (
                 elem.get("type") == "heading" 
                 or content.lower().startswith("faq") 
@@ -148,16 +187,20 @@ def chunk_document(raw_text: str, elements: List[Dict[str, Any]], source_type: s
                 "chunk_index": idx
             })
             
+        logger.info(
+            "Pages=%d Sentences=%d Chunks=%d",
+            1,
+            len(qa_pairs),
+            len(chunks)
+        )
         return chunks
 
-    # 2. Section-aware / Paragraph-aware chunking for standard pages & general documents
-    # Group elements into sections (a heading followed by its paragraphs)
+    # 3. Section-aware / Paragraph-aware chunking for standard HTML pages & general documents
     sections = []
     current_section = []
     
     for elem in elements:
         if elem.get("is_table"):
-            # Tables are treated as separate standalone sections
             if current_section:
                 sections.append((False, "\n\n".join(current_section)))
                 current_section = []
@@ -173,33 +216,34 @@ def chunk_document(raw_text: str, elements: List[Dict[str, Any]], source_type: s
         sections.append((False, "\n\n".join(current_section)))
 
     chunk_index = 0
+    all_sentences_count = 0
     for is_table, section_text in sections:
         section_text = section_text.strip()
         if not section_text:
             continue
             
         if is_table:
-            # Keep tables as a single chunk where possible
             chunks.append({
                 "text": section_text,
                 "is_table": True,
                 "chunk_index": chunk_index
             })
             chunk_index += 1
+            all_sentences_count += 1
             continue
             
         token_len = count_tokens(section_text)
         if token_len <= MAX_CHUNK_TOKENS:
-            # If section fits, keep it intact
             chunks.append({
                 "text": section_text,
                 "is_table": False,
                 "chunk_index": chunk_index
             })
             chunk_index += 1
+            all_sentences_count += len(split_sentences(section_text))
         else:
-            # Split section into sentences and greedily pack them
             sentences = split_sentences(section_text)
+            all_sentences_count += len(sentences)
             packed = pack_sentences(
                 sentences, 
                 max_tokens=MAX_CHUNK_TOKENS, 
@@ -214,4 +258,10 @@ def chunk_document(raw_text: str, elements: List[Dict[str, Any]], source_type: s
                 })
                 chunk_index += 1
                 
+    logger.info(
+        "Pages=%d Sentences=%d Chunks=%d",
+        len(elements) if elements else 1,
+        all_sentences_count,
+        len(chunks)
+    )
     return chunks

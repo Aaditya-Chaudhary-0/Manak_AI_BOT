@@ -61,8 +61,10 @@ async def test_seed_database_execution_and_idempotency(db_session):
     assert chunks[0].qdrant_point_id is not None
 
     # 3. Verify Qdrant points exist
+    import asyncio
     qdrant_point_id_str = str(chunks[0].qdrant_point_id)
-    retrieved_points = await qdrant_manager.async_client.retrieve(
+    retrieved_points = await asyncio.to_thread(
+        qdrant_manager.client.retrieve,
         collection_name=qdrant_manager.collection_name,
         ids=[qdrant_point_id_str]
     )

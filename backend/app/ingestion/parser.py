@@ -1,5 +1,7 @@
 import io
 import logging
+import os
+from pathlib import Path
 from typing import Tuple, List, Dict, Any
 from bs4 import BeautifulSoup
 import httpx
@@ -51,35 +53,86 @@ def get_mock_content(url: str, source_type: str) -> str:
     return "Placeholder text for BIS source: " + url
 
 
-async def parse_source(url: str, source_type: str) -> Tuple[str, List[Dict[str, Any]]]:
+async def parse_source(url_or_path: str, source_type: str) -> Tuple[str, List[Dict[str, Any]]]:
     """
-    Parses a source from the given URL.
+    Parses a source from a local file path, remote HTTP/HTTPS URL, or mock URL.
     Returns:
         Tuple[raw_text, structure_elements]
-        where structure_elements is a list of dictionaries with headings and paragraphs.
+        where structure_elements is a list of dictionaries with headings, paragraphs, or pages.
     """
-    logger.info(f"Parsing source from URL: {url} (type: {source_type})")
+    logger.info(f"Parsing source from target: '{url_or_path}' (type: {source_type})")
     
     # 1. Gracefully handle mock/placeholder URLs for offline development
-    if "example.com" in url or "placeholder" in url or url.startswith("mock://"):
-        text = get_mock_content(url, source_type)
+    if "example.com" in url_or_path or "placeholder" in url_or_path or url_or_path.startswith("mock://"):
+        text = get_mock_content(url_or_path, source_type)
         return text, [{"type": "text", "content": text}]
-        
+
+    # 2. Local File Parsing
+    local_path = Path(url_or_path)
+    if url_or_path.startswith("file://"):
+        local_path = Path(url_or_path[7:])
+
+    is_local = not (url_or_path.startswith("http://") or url_or_path.startswith("https://")) and (local_path.exists() or not url_or_path.startswith("http"))
+
+    if is_local:
+        if not local_path.exists():
+            error_msg = f"Local file not found: {local_path}"
+            logger.error(error_msg)
+            raise FileNotFoundError(error_msg)
+
+        raw_text = ""
+        elements = []
+
+        if local_path.suffix.lower() == ".pdf":
+            try:
+                with pdfplumber.open(local_path) as pdf:
+                    pdf_texts = []
+                    for idx, page in enumerate(pdf.pages):
+                        page_text = page.extract_text() or ""
+                        if page_text.strip():
+                            pdf_texts.append(page_text)
+                            elements.append({
+                                "type": "page",
+                                "index": idx,
+                                "content": page_text
+                            })
+                    raw_text = "\n\n".join(pdf_texts)
+            except Exception as e:
+                logger.warning(f"pdfplumber failed for local file '{local_path}', falling back to text reading: {e}")
+                content = local_path.read_text(encoding="utf-8", errors="ignore")
+                raw_text = content
+                elements = [{"type": "text", "content": raw_text}]
+        else:
+            try:
+                content = local_path.read_text(encoding="utf-8")
+                soup = BeautifulSoup(content, "html.parser")
+                for trash in soup(["script", "style", "nav", "footer", "header"]):
+                    trash.decompose()
+                main_content = soup.find("main") or soup.find("article") or soup.body or soup
+                paragraphs = [p.get_text(separator=" ", strip=True) for p in main_content.find_all(["h1", "h2", "h3", "p", "table"]) if p.get_text(strip=True)]
+                raw_text = "\n\n".join(paragraphs) if paragraphs else main_content.get_text(separator="\n\n", strip=True)
+                elements = [{"type": "text", "content": raw_text}]
+            except Exception as e:
+                logger.error(f"Local text/HTML parsing failed for '{local_path}': {e}")
+                raise e
+
+        return raw_text, elements
+
+    # 3. Remote HTTP/HTTPS URL Parsing
     try:
         async with httpx.AsyncClient(timeout=15.0) as client:
-            response = await client.get(url, follow_redirects=True)
+            response = await client.get(url_or_path, follow_redirects=True)
             response.raise_for_status()
             content = response.content
     except Exception as e:
-        logger.error(f"HTTP fetch failed for URL {url}: {e}")
+        logger.error(f"HTTP fetch failed for URL '{url_or_path}': {e}")
         # TODO: Update source status to 'failed' when status column is added to the sources database schema.
         raise e
 
     raw_text = ""
     elements = []
 
-    # 2. Parse PDF content
-    if url.lower().endswith(".pdf") or (
+    if url_or_path.lower().endswith(".pdf") or (
         response.headers.get("content-type", "").lower() == "application/pdf"
     ):
         try:
@@ -96,40 +149,28 @@ async def parse_source(url: str, source_type: str) -> Tuple[str, List[Dict[str, 
                         })
                 raw_text = "\n\n".join(pdf_texts)
         except Exception as e:
-            logger.error(f"PDF parsing failed for URL {url}: {e}")
+            logger.error(f"PDF parsing failed for URL '{url_or_path}': {e}")
             raise e
-
-    # 3. Parse HTML content
     else:
         try:
             soup = BeautifulSoup(content, "html.parser")
-            
-            # Remove scripts, styles, navs, footers
             for trash in soup(["script", "style", "nav", "footer", "header"]):
                 trash.decompose()
-                
-            # Attempt to find main content wrapper
             main_content = (
                 soup.find("main") 
                 or soup.find("article") 
                 or soup.find(id="content") 
                 or soup.find(class_="content") 
                 or soup.body
+                or soup
             )
-            
-            if main_content is None:
-                main_content = soup
-
             paragraphs = []
-            # Extract structurally
             for child in main_content.find_all(["h1", "h2", "h3", "h4", "p", "table", "li"]):
                 text_content = child.get_text(separator=" ", strip=True)
                 if not text_content:
                     continue
-                
                 is_table = child.name == "table"
                 elem_type = "table" if is_table else ("heading" if child.name.startswith("h") else "paragraph")
-                
                 elements.append({
                     "type": elem_type,
                     "tag": child.name,
@@ -140,12 +181,10 @@ async def parse_source(url: str, source_type: str) -> Tuple[str, List[Dict[str, 
                 
             raw_text = "\n\n".join(paragraphs)
             if not raw_text.strip():
-                # Fallback to get_text
                 raw_text = main_content.get_text(separator="\n\n", strip=True)
                 elements = [{"type": "text", "content": raw_text}]
-                
         except Exception as e:
-            logger.error(f"HTML parsing failed for URL {url}: {e}")
+            logger.error(f"HTML parsing failed for URL '{url_or_path}': {e}")
             raise e
 
     return raw_text, elements

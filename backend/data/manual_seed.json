@@ -1,0 +1,114 @@
+[
+  {
+    "title": "Hallmarking Overview",
+    "url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
+    "source_type": "hallmarking",
+    "scope": "Explains BIS's hallmarking system for gold and silver jewellery, the role of Assaying & Hallmarking Centres, and jeweller registration via the BIS portal.",
+    "chunk": "Explains BIS's hallmarking system for gold and silver jewellery, the role of Assaying & Hallmarking Centres, and jeweller registration via the BIS portal."
+  },
+  {
+    "title": "Hallmarking FAQ",
+    "url": "https://www.bis.gov.in/hallmarking-overview/hallmarking-faqs/hallmarking-faq/?lang=en",
+    "source_type": "hallmarking",
+    "scope": "Answers common consumer questions about hallmark components, the HUID number, and how to verify hallmarked jewellery using the BIS Care app.",
+    "chunk": "Answers common consumer questions about hallmark components, the HUID number, and how to verify hallmarked jewellery using the BIS Care app."
+  },
+  {
+    "title": "Jeweller Registration Procedure",
+    "url": "https://www.bis.gov.in/hallmarking-overview/jewellers-registration-scheme/procedure-of-obtaining-licence/?lang=en",
+    "source_type": "hallmarking",
+    "scope": "Describes the process for a jeweller to obtain BIS registration to sell hallmarked gold/silver jewellery from a given sales outlet.",
+    "chunk": "Describes the process for a jeweller to obtain BIS registration to sell hallmarked gold/silver jewellery from a given sales outlet."
+  },
+  {
+    "title": "Hallmarking Charges",
+    "url": "https://bis.gov.in/hallmarking-overview/jewellers-registration-scheme/halmarking-charges",
+    "source_type": "hallmarking",
+    "scope": "Lists the per-piece charges payable to BIS-recognized Assaying & Hallmarking Centres for gold and silver jewellery hallmarking.",
+    "chunk": "Lists the per-piece charges payable to BIS-recognized Assaying & Hallmarking Centres for gold and silver jewellery hallmarking."
+  },
+  {
+    "title": "Consumer Protection — Hallmarking",
+    "url": "https://www.bis.gov.in/hallmarking-overview/consumer-protection/?lang=en",
+    "source_type": "hallmarking",
+    "scope": "Explains how a consumer can get jewellery tested at a BIS-recognized centre and verify hallmark authenticity via the BIS Care mobile app.",
+    "chunk": "Explains how a consumer can get jewellery tested at a BIS-recognized centre and verify hallmark authenticity via the BIS Care mobile app."
+  },
+  {
+    "title": "Brief on Hallmarking Scheme (PDF)",
+    "url": "https://www.bis.gov.in/wp-content/uploads/2020/12/brief-on-Hallmarking.pdf",
+    "source_type": "hallmarking",
+    "scope": "Background document covering how and why BIS became the sole agency operating India's gold and silver hallmarking scheme.",
+    "chunk": "Background document covering how and why BIS became the sole agency operating India's gold and silver hallmarking scheme."
+  },
+  {
+    "standard_code": "IS 10500",
+    "title": "Drinking Water — Specification (Second Revision)",
+    "url": "https://www.bis.gov.in/other/DrinWatIS10500.pdf",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "2012 (Second Revision)",
+    "scope": "Sets requirements and test/sampling methods for drinking water quality in India, covering acceptable and permissible limits for water quality parameters.",
+    "chunk": "Sets requirements and test/sampling methods for drinking water quality in India, covering acceptable and permissible limits for water quality parameters."
+  },
+  {
+    "standard_code": "IS 15820",
+    "title": "General Requirements for Establishment and Operation of Assaying and Hallmarking Centres",
+    "url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "2009",
+    "scope": "Forms the basis for BIS recognition of Assaying and Hallmarking Centres.",
+    "chunk": "Forms the basis for BIS recognition of Assaying and Hallmarking Centres."
+  },
+  {
+    "standard_code": "IS 1417",
+    "title": "Gold and Gold Alloys — Determination of Fineness (used for 995/999 fineness bar marking)",
+    "url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "2016",
+    "scope": "Referenced for refineries seeking BIS licence to mark standard gold bars of 995 and 999 fineness.",
+    "chunk": "Referenced for refineries seeking BIS licence to mark standard gold bars of 995 and 999 fineness."
+  },
+  {
+    "standard_code": "IS 8470",
+    "title": "Packaging — Complete, Filled Transport Packages and Unit Loads — Dimensions of Rigid Rectangular Packages",
+    "url": "https://standardsbis.bsbedge.com/",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "2018 (R2023)",
+    "scope": "Packaging — Complete, Filled Transport Packages and Unit Loads — Dimensions of Rigid Rectangular Packages",
+    "chunk": "Packaging — Complete, Filled Transport Packages and Unit Loads — Dimensions of Rigid Rectangular Packages"
+  },
+  {
+    "standard_code": "IS 6192",
+    "title": "Textiles — Monoaxially Oriented High Density Polyethylene Tapes — Specification",
+    "url": "https://standardsbis.bsbedge.com/",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "1994 (R2023)",
+    "scope": "Textiles — Monoaxially Oriented High Density Polyethylene Tapes — Specification",
+    "chunk": "Textiles — Monoaxially Oriented High Density Polyethylene Tapes — Specification"
+  },
+  {
+    "standard_code": "IS 6191 : Part 2",
+    "title": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2 Colour Fastness to Water",
+    "url": "https://standardsbis.bsbedge.com/",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "2017 (R2023)",
+    "scope": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2 Colour Fastness to Water",
+    "chunk": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2 Colour Fastness to Water"
+  },
+  {
+    "standard_code": "IS 8392",
+    "title": "Tungsten Powder for Hardmetals — Specification",
+    "url": "https://standardsbis.bsbedge.com/",
+    "source_type": "standard_metadata",
+    "status": "Active",
+    "version": "2023 (R2024)",
+    "scope": "Tungsten Powder for Hardmetals — Specification",
+    "chunk": "Tungsten Powder for Hardmetals — Specification"
+  }
+]

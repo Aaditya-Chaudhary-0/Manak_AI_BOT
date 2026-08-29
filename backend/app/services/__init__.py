@@ -5,6 +5,7 @@ from app.services.standard_repository import StandardRepository, StandardRelatio
 from app.services.query_repository import QueryRepository, ResultRepository, FeedbackRepository
 from app.services.audit_repository import AuditLogRepository
 from app.services.embedding_service import embedding_service, EmbeddingService
+from app.services.retrieval_service import retrieval_service, RetrievalService
 
 __all__ = [
     "BaseRepository",
@@ -19,4 +20,6 @@ __all__ = [
     "AuditLogRepository",
     "embedding_service",
     "EmbeddingService",
+    "retrieval_service",
+    "RetrievalService",
 ]

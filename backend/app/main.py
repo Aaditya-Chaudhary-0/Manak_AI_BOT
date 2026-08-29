@@ -10,7 +10,7 @@ from sqlalchemy import text
 from app.config import settings, setup_logging
 from app.database import engine, AsyncSessionFactory
 from app.qdrant_client import qdrant_manager
-from app.routers import health
+from app.routers import health, search
 
 # Setup application logging
 setup_logging()
@@ -140,3 +140,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 # Mount health check endpoint under root and /api
 app.include_router(health.router)
 app.include_router(health.router, prefix="/api")
+
+# Mount search router under root and /api
+app.include_router(search.router)
+app.include_router(search.router, prefix="/api")

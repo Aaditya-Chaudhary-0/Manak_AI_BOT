@@ -118,37 +118,79 @@ def chunk_document(raw_text: str, elements: List[Dict[str, Any]], source_type: s
     """
     chunks = []
 
-    # 1. Page-based PDF chunking (when elements contains page elements)
+    # 1. Continuous stream PDF chunking across page boundaries
     if elements and any(e.get("type") == "page" for e in elements):
-        total_sentences = 0
-        chunk_index = 0
         page_elements = [e for e in elements if e.get("type") == "page"]
         
+        # Build continuous text and track page character spans
+        continuous_parts = []
+        page_spans = []  # List of (page_number, start_offset, end_offset)
+        current_offset = 0
+        
         for elem in page_elements:
+            page_num = elem.get("index", 0) + 1  # 1-indexed page number
             page_text = elem.get("content", "").strip()
             if not page_text:
                 continue
             
-            sentences = split_sentences(page_text)
-            total_sentences += len(sentences)
-            packed = pack_sentences(
-                sentences,
-                max_tokens=MAX_CHUNK_TOKENS,
-                min_tokens=MIN_CHUNK_TOKENS,
-                overlap_count=OVERLAP_SENTENCES
-            )
-            for text in packed:
-                chunks.append({
-                    "text": text,
-                    "is_table": False,
-                    "chunk_index": chunk_index
-                })
-                chunk_index += 1
-
+            # If previous part ended mid-sentence without space/punctuation and current starts without space, join with space
+            if continuous_parts and not continuous_parts[-1].endswith(("\n", " ", ".", "!", "?", ":", ";")) and not page_text.startswith(("\n", " ")):
+                join_str = " "
+            else:
+                join_str = "\n\n" if continuous_parts else ""
+                
+            if join_str:
+                continuous_parts.append(join_str)
+                current_offset += len(join_str)
+                
+            start_offset = current_offset
+            continuous_parts.append(page_text)
+            current_offset += len(page_text)
+            end_offset = current_offset
+            
+            page_spans.append((page_num, start_offset, end_offset))
+            
+        full_text = "".join(continuous_parts)
+        
+        if not full_text.strip():
+            return []
+            
+        sentences = split_sentences(full_text)
+        packed_chunks = pack_sentences(
+            sentences,
+            max_tokens=MAX_CHUNK_TOKENS,
+            min_tokens=MIN_CHUNK_TOKENS,
+            overlap_count=OVERLAP_SENTENCES
+        )
+        
+        # Map each chunk back to the page numbers it overlaps with
+        search_start = 0
+        for chunk_idx, chunk_text in enumerate(packed_chunks):
+            start_pos = full_text.find(chunk_text[:40], search_start)
+            if start_pos == -1:
+                start_pos = search_start
+            end_pos = start_pos + len(chunk_text)
+            search_start = max(search_start, start_pos + 1)
+            
+            pages_in_chunk = []
+            for p_num, p_start, p_end in page_spans:
+                if max(start_pos, p_start) < min(end_pos, p_end):
+                    pages_in_chunk.append(p_num)
+                    
+            if not pages_in_chunk:
+                pages_in_chunk = [1]
+                
+            chunks.append({
+                "text": chunk_text,
+                "is_table": False,
+                "chunk_index": chunk_idx,
+                "page_numbers": pages_in_chunk
+            })
+            
         logger.info(
             "Pages=%d Sentences=%d Chunks=%d",
             len(page_elements),
-            total_sentences,
+            len(sentences),
             len(chunks)
         )
         return chunks

@@ -60,7 +60,7 @@ async def process_single_pdf(
         db_source = Source(
             title=filename,
             url=abs_path_str,
-            source_type="standard_pdf",
+            source_type="standard_metadata",
             checksum=None
         )
         db_source = await source_repo.create(db_source)
@@ -106,15 +106,15 @@ async def process_single_pdf(
         logger.warning(f"Error clearing previous index for source {db_source.id}: {e}")
 
     # 6. Parse PDF text
-    raw_text, elements = await parse_source(abs_path_str, source_type="standard_pdf")
+    raw_text, elements = await parse_source(abs_path_str, source_type="standard_metadata")
 
     # 7. Chunk Document
-    chunks_data = chunk_document(raw_text, elements, source_type="standard_pdf")
+    chunks_data = chunk_document(raw_text, elements, source_type="standard_metadata")
 
     # 8. Embed & Store
     num_chunks = await embed_and_store_chunks(
         source_id=db_source.id,
-        source_type="standard_pdf",
+        source_type="standard_metadata",
         chunks_data=chunks_data,
         standard_id=standard_id,
         chunk_repo=chunk_repo
@@ -254,7 +254,7 @@ async def handle_deleted_files(
     discovered_abs_set = {str(p.resolve()) for p in discovered_files}
 
     # Query all local PDF sources
-    res = await session.execute(select(Source).filter(Source.source_type == "standard_pdf"))
+    res = await session.execute(select(Source).filter(Source.source_type == "standard_metadata"))
     db_pdf_sources = res.scalars().all()
 
     for db_src in db_pdf_sources:

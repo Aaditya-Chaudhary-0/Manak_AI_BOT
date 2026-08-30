@@ -81,7 +81,8 @@ async def test_search_endpoint_success(client, db_session):
     assert first_result["confidence"] in ["High", "Medium", "Low"]
 
     # Verify persistence in Postgres
-    res_query = await db_session.execute(select(Query).filter_by(text=payload["query"]))
+    db_session.expire_all()
+    res_query = await db_session.execute(select(Query).filter_by(text=payload["query"]).order_by(Query.created_at.desc()))
     db_query = res_query.scalars().first()
     assert db_query is not None
     assert db_query.abstained is False

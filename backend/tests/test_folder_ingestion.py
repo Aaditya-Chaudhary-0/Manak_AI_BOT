@@ -71,7 +71,7 @@ async def test_parse_local_file(tmp_path):
     sample_file = tmp_path / "sample_doc.html"
     sample_file.write_text("<html><body><h1>Test Header</h1><p>Test paragraph content.</p></body></html>")
 
-    raw_text, elements = await parse_source(str(sample_file), "standard_pdf")
+    raw_text, elements = await parse_source(str(sample_file), "standard_metadata")
 
     assert "Test Header" in raw_text
     assert "Test paragraph content." in raw_text
@@ -123,7 +123,7 @@ async def test_deleted_files_policy(db_session):
     deleted_source = Source(
         title="Missing PDF",
         url=missing_path,
-        source_type="standard_pdf",
+        source_type="standard_metadata",
         checksum="dummyhash"
     )
     deleted_source = await source_repo.create(deleted_source)
@@ -143,3 +143,30 @@ async def test_deleted_files_policy(db_session):
     # Verify chunks for missing source are deleted
     chunks = await chunk_repo.list_by_source_id(deleted_source.id)
     assert len(chunks) == 0
+
+
+def test_cross_page_chunk_continuity():
+    """
+    Unit test: Verifies that sentences split across page boundaries (page N ends mid-sentence,
+    page N+1 continues it) are merged into a single continuous stream chunk with page_numbers tracking.
+    """
+    from app.ingestion.chunker import chunk_document
+
+    page1_text = "This Indian Standard specifies general and safety requirements for LED luminaires"
+    page2_text = "including physical, thermal, and electrical performance parameters for indoor applications."
+
+    elements = [
+        {"type": "page", "index": 0, "content": page1_text},
+        {"type": "page", "index": 1, "content": page2_text}
+    ]
+
+    raw_text = page1_text + " " + page2_text
+    chunks = chunk_document(raw_text, elements, "standard_metadata")
+
+    assert len(chunks) == 1
+    expected_full_sentence = (
+        "This Indian Standard specifies general and safety requirements for LED luminaires "
+        "including physical, thermal, and electrical performance parameters for indoor applications."
+    )
+    assert chunks[0]["text"] == expected_full_sentence
+    assert chunks[0]["page_numbers"] == [1, 2]

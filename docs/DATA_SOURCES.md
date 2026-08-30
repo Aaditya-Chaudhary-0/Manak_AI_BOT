@@ -18,7 +18,7 @@ corpus covers (and can say so to judges).
 
 | # | URL | Category | Notes |
 |---|---|---|---|
-| 1 | *(BIS Know Your Standard portal URL)* | standard_metadata | Primary standards index |
+| 1 | https://standardsbis.bsbedge.com/BIS_AdvanceSearch| standard_metadata | Primary standards index |
 | 2 | *(BIS Product Certification page)* | certification | Scheme-I/IV guidance |
 | 3 | *(BIS Hallmarking overview page)* | hallmarking | Consumer + jeweller info |
 | 4 | *(BIS Hallmarking FAQ page)* | hallmarking | HUID explanation |

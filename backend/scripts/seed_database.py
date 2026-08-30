@@ -10,6 +10,7 @@ from typing import Dict, Any, Optional
 from sqlalchemy import select
 from qdrant_client.models import PointStruct
 
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import AsyncSessionFactory
 from app.qdrant_client import qdrant_manager
 from app.services.embedding_service import embedding_service
@@ -24,12 +25,10 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(level
 logger = logging.getLogger("seed_database")
 
 
-async def seed_data(json_path: Optional[str] = None) -> Dict[str, int]:
+async def seed_data(json_path: Optional[str] = None, session: Optional[AsyncSession] = None) -> Dict[str, int]:
     """
-    Reads the manual seed JSON file, updates or inserts records into PostgreSQL via repositories,
-    embeds text payloads, and upserts vectors into Qdrant.
-    
-    Returns a dictionary of execution metrics.
+    Seeds initial standards, sources, and chunks into PostgreSQL and vectors into Qdrant.
+    Ensures full idempotency: repeated executions update existing records instead of duplicating.
     """
     metrics = {
         "Inserted Standards": 0,
@@ -50,13 +49,17 @@ async def seed_data(json_path: Optional[str] = None) -> Dict[str, int]:
     with open(json_path, "r", encoding="utf-8") as f:
         items = json.load(f)
 
-    async with AsyncSessionFactory() as session:
-        async with session.begin():
-            source_repo = SourceRepository(session)
-            standard_repo = StandardRepository(session)
-            chunk_repo = ChunkRepository(session)
+    close_session = False
+    if session is None:
+        session = AsyncSessionFactory()
+        close_session = True
 
-            for item in items:
+    try:
+        source_repo = SourceRepository(session)
+        standard_repo = StandardRepository(session)
+        chunk_repo = ChunkRepository(session)
+
+        for item in items:
                 try:
                     url = item["url"]
                     title = item["title"]
@@ -164,6 +167,14 @@ async def seed_data(json_path: Optional[str] = None) -> Dict[str, int]:
                 except Exception as e:
                     logger.error(f"Error seeding item '{item.get('title')}': {e}", exc_info=True)
                     metrics["Errors"] += 1
+
+        await session.commit()
+    except Exception as e:
+        await session.rollback()
+        raise e
+    finally:
+        if close_session:
+            await session.close()
 
     # Print summary output
     print("\n=== Seeding Summary ===")

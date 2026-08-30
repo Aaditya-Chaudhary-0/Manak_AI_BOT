@@ -11,7 +11,7 @@ class AuditLog(Base):
     """
     SQLAlchemy model representing system audit logs for administrative review.
     """
-    __tablename__ = "audit_logs"
+    __tablename__ = "audit_log"
 
     id: Mapped[uuid.UUID] = mapped_column(
         primary_key=True,

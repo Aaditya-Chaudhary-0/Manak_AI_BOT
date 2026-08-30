@@ -8,15 +8,17 @@ import LoadingState from '../components/assistant/LoadingState';
 import MessageInput from '../components/assistant/MessageInput';
 import ConversationHistory from '../components/assistant/ConversationHistory';
 import { 
-  RECENT_CONVERSATIONS_LIST, 
-  getMockResponseForQuery 
+  RECENT_CONVERSATIONS_LIST 
 } from '../data/mockAssistantData';
 import type { 
   AssistantMessage, 
-  ConversationSession 
+  ConversationSession,
+  StandardItem,
+  EvidenceItem
 } from '../data/mockAssistantData';
 import { History, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { searchApi } from '../lib/api';
 
 export function AssistantPage() {
   const location = useLocation();
@@ -47,7 +49,7 @@ export function AssistantPage() {
   }, [messages, isLoading]);
 
   // Handle sending a query
-  const handleSendMessage = (queryText: string) => {
+  const handleSendMessage = async (queryText: string) => {
     if (!queryText.trim()) return;
 
     const userMessage: AssistantMessage = {
@@ -61,13 +63,63 @@ export function AssistantPage() {
     setIsLoading(true);
     setPrefilledQuery('');
 
-    // Simulate realistic AI lookup latency
-    setTimeout(() => {
-      const aiResponse = getMockResponseForQuery(queryText);
-      setMessages((prev) => [...prev, aiResponse]);
-      setIsLoading(false);
+    try {
+      const searchRes = await searchApi({ query: queryText });
 
-      // If this was a new thread, create or update conversation title
+      let responseText = '';
+      let confidence: 'High' | 'Medium' | 'Low' = 'Low';
+      const standards: StandardItem[] = [];
+      const evidence: EvidenceItem[] = [];
+
+      if (searchRes.abstained || !searchRes.results || searchRes.results.length === 0) {
+        responseText = searchRes.message || 'No sufficiently relevant evidence found in the indexed BIS corpus.';
+        confidence = 'Low';
+      } else {
+        responseText = `Found ${searchRes.results.length} relevant standard specification(s) in official BIS data for: "${queryText}".`;
+        confidence = searchRes.results[0].confidence || 'High';
+
+        searchRes.results.forEach((res) => {
+          standards.push({
+            id: res.result_id,
+            code: res.standard_code || 'BIS Standard',
+            title: res.title,
+            status: 'Active',
+            relevanceReason: `Score: ${(res.score * 100).toFixed(0)}% match`,
+            category: 'BIS Standard Specification',
+            link: res.source_url,
+          });
+
+          evidence.push({
+            sourceName: res.title,
+            document: res.standard_code || res.title,
+            clause: `Confidence: ${res.confidence} (${(res.score * 100).toFixed(0)}%)`,
+            excerpt: res.snippet,
+            sourceUrl: res.source_url,
+          });
+        });
+      }
+
+      const aiResponse: AssistantMessage = {
+        id: `ai-${Date.now()}`,
+        role: 'assistant',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: responseText,
+        confidence,
+        standards: standards.length > 0 ? standards : undefined,
+        evidence: evidence.length > 0 ? evidence : undefined,
+        suggestedActions: [
+          {
+            id: 'follow-1',
+            label: 'View Detailed Specifications',
+            type: 'followup',
+            payload: `Show detailed specifications for ${queryText}`,
+            primary: true,
+          },
+        ],
+      };
+
+      setMessages((prev) => [...prev, aiResponse]);
+
       if (!activeConvId) {
         const newConvId = `conv-${Date.now()}`;
         const newConv: ConversationSession = {
@@ -79,7 +131,19 @@ export function AssistantPage() {
         setConversations((prev) => [newConv, ...prev]);
         setActiveConvId(newConvId);
       }
-    }, 700);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to connect to search service.';
+      const errorMsg: AssistantMessage = {
+        id: `err-${Date.now()}`,
+        role: 'assistant',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: `Error performing search: ${errorMessage}`,
+        isError: true,
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Start fresh chat

@@ -73,7 +73,7 @@ async def test_source_chunk_cascade(db_session):
     source = Source(
         title="BIS LED Bulb Standard Doc",
         url="https://bis.gov.in/led-doc.pdf",
-        source_type="standard_page",
+        source_type="standard_metadata",
         checksum="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         indexed_at=datetime.utcnow()
     )

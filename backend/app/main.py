@@ -10,7 +10,7 @@ from sqlalchemy import text
 from app.config import settings, setup_logging
 from app.database import engine, AsyncSessionFactory
 from app.qdrant_client import qdrant_manager
-from app.routers import health, search
+from app.routers import health, search, standards, recommend
 
 # Setup application logging
 setup_logging()
@@ -144,3 +144,11 @@ app.include_router(health.router, prefix="/api")
 # Mount search router under root and /api
 app.include_router(search.router)
 app.include_router(search.router, prefix="/api")
+
+# Mount standards catalog router under root and /api
+app.include_router(standards.router)
+app.include_router(standards.router, prefix="/api")
+
+# Mount recommend router under root and /api
+app.include_router(recommend.router)
+app.include_router(recommend.router, prefix="/api")

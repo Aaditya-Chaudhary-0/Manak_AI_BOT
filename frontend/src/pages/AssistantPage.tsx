@@ -121,9 +121,9 @@ export function AssistantPage() {
       pageTitle="MANAK AI Assistant"
       pageSubtitle="Interactive Standards Intelligence, Test Methods & Verification"
     >
-      <div className="flex flex-1 w-full bg-[#F7F8FA]">
+      <div className="flex h-full w-full min-h-0 bg-[#F7F8FA]">
         {/* Main Conversation Column */}
-        <div className="flex-1 flex flex-col min-w-0 bg-white border-r border-gray-200">
+        <div className="flex flex-1 min-h-0 min-w-0 flex-col bg-white border-r border-gray-200 overflow-hidden">
           {/* Header */}
           <div className="relative shrink-0">
             <AssistantHeader
@@ -143,52 +143,56 @@ export function AssistantPage() {
             </div>
           </div>
 
-          {/* Conversation Chat Scroll Area */}
-          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 bg-[#F7F8FA]">
-            {messages.length === 0 ? (
-              <EmptyState onSelectPrompt={handleSendMessage} />
-            ) : (
-              <div className="max-w-4xl mx-auto space-y-4">
-                <AnimatePresence initial={false}>
-                  {messages.map((msg) => (
+          <div className="flex min-h-0 flex-1 flex-col">
+            {/* Conversation Chat Scroll Area */}
+            <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 bg-[#F7F8FA]">
+              {messages.length === 0 ? (
+                <EmptyState onSelectPrompt={handleSendMessage} />
+              ) : (
+                <div className="max-w-4xl mx-auto space-y-4">
+                  <AnimatePresence initial={false}>
+                    {messages.map((msg) => (
+                      <motion.div
+                        key={msg.id}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <MessageBubble
+                          message={msg}
+                          onFollowUpClick={handleFollowUpClick}
+                          onRetry={handleRetry}
+                        />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+
+                  {isLoading && (
                     <motion.div
-                      key={msg.id}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.2 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                     >
-                      <MessageBubble
-                        message={msg}
-                        onFollowUpClick={handleFollowUpClick}
-                        onRetry={handleRetry}
-                      />
+                      <LoadingState />
                     </motion.div>
-                  ))}
-                </AnimatePresence>
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
+            </div>
 
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <LoadingState />
-                  </motion.div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
+            {/* Message Composer */}
+            <div className="shrink-0 bg-white border-t border-gray-200">
+              <MessageInput
+                onSendMessage={handleSendMessage}
+                isLoading={isLoading}
+              />
+            </div>
           </div>
-
-          {/* Message Composer (Anchored Sticky Bottom) */}
-          <MessageInput
-            onSendMessage={handleSendMessage}
-            isLoading={isLoading}
-          />
         </div>
 
         {/* Desktop Recent Queries Sidebar */}
-        <div className="hidden lg:block w-72 bg-white shrink-0 border-l border-gray-100 h-full">
+        <div className="hidden lg:block w-72 bg-white shrink-0 border-l border-gray-100 h-full overflow-hidden">
           <ConversationHistory
             conversations={conversations}
             activeConversationId={activeConvId}

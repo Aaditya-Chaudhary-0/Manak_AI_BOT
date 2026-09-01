@@ -51,7 +51,7 @@ export function MessageInput({ onSendMessage, isLoading, disabled, initialValue 
   const isSendDisabled = !text.trim() || isLoading || disabled;
 
   return (
-    <div className="bg-white border-t border-gray-200 px-4 py-3 sm:px-6 sm:py-4 sticky bottom-0 z-20 w-full shadow-xs">
+    <div className="bg-white px-4 py-3 sm:px-6 sm:py-4 w-full shadow-xs">
       <div className="max-w-4xl mx-auto w-full">
         <form
           onSubmit={(e) => {

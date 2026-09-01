@@ -50,7 +50,7 @@ export function AppLayout({ children, pageTitle, pageSubtitle }: AppLayoutProps)
   };
 
   return (
-    <div className="w-full min-w-full min-h-screen bg-[#F7F8FA] flex flex-col md:flex-row text-gray-900 font-sans">
+    <div className="h-screen w-full min-w-0 overflow-hidden bg-[#F7F8FA] flex flex-col md:flex-row text-gray-900 font-sans">
       {/* Mobile Header Bar */}
       <div className="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center space-x-2">
@@ -164,7 +164,7 @@ export function AppLayout({ children, pageTitle, pageSubtitle }: AppLayoutProps)
       </AnimatePresence>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-gray-200 shrink-0 sticky top-0 h-screen">
+      <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-gray-200 shrink-0 sticky top-0 h-full min-h-0">
         {/* Brand Header */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
           <Link to="/app/dashboard" className="flex items-center space-x-2">
@@ -260,7 +260,7 @@ export function AppLayout({ children, pageTitle, pageSubtitle }: AppLayoutProps)
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 w-full bg-[#F7F8FA]">
+      <div className="flex flex-1 min-h-0 min-w-0 flex-col w-full bg-[#F7F8FA]">
         {/* Desktop Top Bar */}
         <header className="hidden md:flex h-16 border-b border-gray-200 px-6 items-center justify-between bg-white shrink-0">
           <div className="flex items-center space-x-3">
@@ -305,7 +305,7 @@ export function AppLayout({ children, pageTitle, pageSubtitle }: AppLayoutProps)
             initial="initial"
             animate="animate"
             exit="exit"
-            className="flex-1 overflow-y-auto w-full"
+            className="flex-1 min-h-0 overflow-y-auto w-full"
           >
             {children}
           </motion.main>

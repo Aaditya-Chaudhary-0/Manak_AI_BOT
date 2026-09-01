@@ -1,114 +1,320 @@
 [
   {
-    "title": "Hallmarking Overview",
-    "url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
-    "source_type": "hallmarking",
-    "scope": "Explains BIS's hallmarking system for gold and silver jewellery, the role of Assaying & Hallmarking Centres, and jeweller registration via the BIS portal.",
-    "chunk": "Explains BIS's hallmarking system for gold and silver jewellery, the role of Assaying & Hallmarking Centres, and jeweller registration via the BIS portal."
-  },
-  {
-    "title": "Hallmarking FAQ",
-    "url": "https://www.bis.gov.in/hallmarking-overview/hallmarking-faqs/hallmarking-faq/?lang=en",
-    "source_type": "hallmarking",
-    "scope": "Answers common consumer questions about hallmark components, the HUID number, and how to verify hallmarked jewellery using the BIS Care app.",
-    "chunk": "Answers common consumer questions about hallmark components, the HUID number, and how to verify hallmarked jewellery using the BIS Care app."
-  },
-  {
-    "title": "Jeweller Registration Procedure",
-    "url": "https://www.bis.gov.in/hallmarking-overview/jewellers-registration-scheme/procedure-of-obtaining-licence/?lang=en",
-    "source_type": "hallmarking",
-    "scope": "Describes the process for a jeweller to obtain BIS registration to sell hallmarked gold/silver jewellery from a given sales outlet.",
-    "chunk": "Describes the process for a jeweller to obtain BIS registration to sell hallmarked gold/silver jewellery from a given sales outlet."
-  },
-  {
-    "title": "Hallmarking Charges",
-    "url": "https://bis.gov.in/hallmarking-overview/jewellers-registration-scheme/halmarking-charges",
-    "source_type": "hallmarking",
-    "scope": "Lists the per-piece charges payable to BIS-recognized Assaying & Hallmarking Centres for gold and silver jewellery hallmarking.",
-    "chunk": "Lists the per-piece charges payable to BIS-recognized Assaying & Hallmarking Centres for gold and silver jewellery hallmarking."
-  },
-  {
-    "title": "Consumer Protection — Hallmarking",
-    "url": "https://www.bis.gov.in/hallmarking-overview/consumer-protection/?lang=en",
-    "source_type": "hallmarking",
-    "scope": "Explains how a consumer can get jewellery tested at a BIS-recognized centre and verify hallmark authenticity via the BIS Care mobile app.",
-    "chunk": "Explains how a consumer can get jewellery tested at a BIS-recognized centre and verify hallmark authenticity via the BIS Care mobile app."
-  },
-  {
-    "title": "Brief on Hallmarking Scheme (PDF)",
-    "url": "https://www.bis.gov.in/wp-content/uploads/2020/12/brief-on-Hallmarking.pdf",
-    "source_type": "hallmarking",
-    "scope": "Background document covering how and why BIS became the sole agency operating India's gold and silver hallmarking scheme.",
-    "chunk": "Background document covering how and why BIS became the sole agency operating India's gold and silver hallmarking scheme."
-  },
-  {
     "standard_code": "IS 10500",
-    "title": "Drinking Water — Specification (Second Revision)",
-    "url": "https://www.bis.gov.in/other/DrinWatIS10500.pdf",
-    "source_type": "standard_metadata",
+    "title": "Drinking Water — Specification",
+    "edition": "Second Revision",
+    "year": 2012,
     "status": "Active",
-    "version": "2012 (Second Revision)",
-    "scope": "Sets requirements and test/sampling methods for drinking water quality in India, covering acceptable and permissible limits for water quality parameters.",
-    "chunk": "Sets requirements and test/sampling methods for drinking water quality in India, covering acceptable and permissible limits for water quality parameters."
+    "source_type": "standard",
+    "category": "Water",
+    "sub_category": "Drinking Water",
+    "scope": "Specifies requirements, sampling methods and test methods for drinking water, including acceptable limits and permissible limits where an alternate source is unavailable.",
+    "key_topics": [
+      "water quality",
+      "sampling",
+      "testing",
+      "acceptable limits",
+      "permissible limits",
+      "microbiological quality",
+      "chemical parameters"
+    ],
+    "important_parameters": [
+      "pH",
+      "colour",
+      "odour",
+      "turbidity",
+      "total dissolved solids",
+      "hardness",
+      "iron",
+      "fluoride",
+      "nitrate",
+      "arsenic",
+      "lead",
+      "cadmium",
+      "microbiological requirements"
+    ],
+    "document_type": "Indian Standard",
+    "source_url": "https://www.bis.gov.in/other/DrinWatIS10500.pdf",
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "retrieved_at": "2026-09-01",
+    "chunk": "IS 10500:2012 specifies requirements and methods of sampling and testing for drinking water and defines acceptable and permissible limits for specified quality parameters."
   },
+
   {
     "standard_code": "IS 15820",
     "title": "General Requirements for Establishment and Operation of Assaying and Hallmarking Centres",
-    "url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
-    "source_type": "standard_metadata",
+    "year": 2009,
     "status": "Active",
-    "version": "2009",
-    "scope": "Forms the basis for BIS recognition of Assaying and Hallmarking Centres.",
-    "chunk": "Forms the basis for BIS recognition of Assaying and Hallmarking Centres."
+    "source_type": "standard",
+    "category": "Hallmarking",
+    "sub_category": "Assaying and Hallmarking Centres",
+    "scope": "Specifies general requirements associated with establishment and operation of Assaying and Hallmarking Centres recognized by BIS.",
+    "key_topics": [
+      "assaying",
+      "hallmarking",
+      "AHC",
+      "BIS recognition",
+      "gold",
+      "silver",
+      "testing"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
+    "chunk": "IS 15820 forms the basis for BIS recognition of Assaying and Hallmarking Centres."
   },
+
   {
     "standard_code": "IS 1417",
-    "title": "Gold and Gold Alloys — Determination of Fineness (used for 995/999 fineness bar marking)",
-    "url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
-    "source_type": "standard_metadata",
+    "title": "Gold and Gold Alloys — Determination of Fineness",
+    "year": 2016,
     "status": "Active",
-    "version": "2016",
-    "scope": "Referenced for refineries seeking BIS licence to mark standard gold bars of 995 and 999 fineness.",
-    "chunk": "Referenced for refineries seeking BIS licence to mark standard gold bars of 995 and 999 fineness."
+    "source_type": "standard",
+    "category": "Hallmarking",
+    "sub_category": "Gold",
+    "scope": "Referenced for determination of fineness of gold and gold alloys and associated marking requirements for standard gold bars.",
+    "key_topics": [
+      "gold",
+      "gold alloys",
+      "fineness",
+      "995 fineness",
+      "999 fineness",
+      "refineries",
+      "gold bars"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
+    "chunk": "IS 1417:2016 is referenced in the BIS framework for refineries seeking licensing to mark standard gold bars of 995 and 999 fineness."
   },
+
+  {
+    "title": "Hallmarking Overview",
+    "source_type": "scheme",
+    "category": "Hallmarking",
+    "sub_category": "General",
+    "status": "Active",
+    "scope": "Provides an overview of the BIS hallmarking system for gold and silver jewellery and explains the roles of jewellers and Assaying and Hallmarking Centres.",
+    "key_topics": [
+      "hallmarking",
+      "gold jewellery",
+      "silver jewellery",
+      "jeweller registration",
+      "AHC",
+      "BIS"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/?lang=en",
+    "chunk": "BIS operates a hallmarking scheme for gold and silver jewellery through its network of recognized facilities and registered jewellers."
+  },
+
+  {
+    "title": "Hallmarking FAQ",
+    "source_type": "faq",
+    "category": "Hallmarking",
+    "sub_category": "Consumer",
+    "status": "Active",
+    "scope": "Provides answers to common consumer questions about hallmark components, HUID, invoices, hallmarking charges and verification.",
+    "key_topics": [
+      "HUID",
+      "hallmark",
+      "consumer",
+      "invoice",
+      "jeweller",
+      "verification",
+      "BIS Care"
+    ],
+    "important_facts": [
+      "Hallmarking charges are charged per article rather than according to jewellery weight.",
+      "Consumers should obtain an authentic bill or invoice.",
+      "Consumers can verify HUID information using BIS Care."
+    ],
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/hallmarking-faqs/hallmarking-faq/?lang=en",
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "chunk": "The BIS Hallmarking FAQ explains HUID verification, hallmark components, consumer bills and hallmarking charges."
+  },
+
+  {
+    "title": "Jeweller Registration Procedure",
+    "source_type": "procedure",
+    "category": "Hallmarking",
+    "sub_category": "Jeweller Registration",
+    "status": "Active",
+    "scope": "Explains the procedure for obtaining BIS registration to sell hallmarked gold and silver jewellery from a sales outlet.",
+    "key_topics": [
+      "jeweller",
+      "registration",
+      "BIS registration",
+      "sales outlet",
+      "hallmarked jewellery"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/jewellers-registration-scheme/procedure-of-obtaining-licence/?lang=en",
+    "chunk": "The procedure describes how a jeweller can obtain BIS registration for selling hallmarked jewellery."
+  },
+
+  {
+    "title": "Hallmarking Charges",
+    "source_type": "fee_information",
+    "category": "Hallmarking",
+    "sub_category": "Charges",
+    "status": "Active",
+    "charges": {
+      "gold_per_article_inr": 45,
+      "silver_per_article_inr": 35
+    },
+    "charge_basis": "per article",
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/hallmarking-faqs/hallmarking-faq/?lang=en",
+    "chunk": "BIS information states hallmarking charges of Rs. 45 per gold article and Rs. 35 per silver article, with charges applied per article rather than according to weight."
+  },
+
+  {
+    "title": "Consumer Protection — Hallmarking",
+    "source_type": "consumer_guidance",
+    "category": "Hallmarking",
+    "sub_category": "Consumer Protection",
+    "status": "Active",
+    "scope": "Provides consumer guidance for verification and testing of hallmarked jewellery and explains mechanisms for addressing concerns about hallmark authenticity.",
+    "key_topics": [
+      "consumer protection",
+      "hallmark verification",
+      "HUID",
+      "testing",
+      "complaints",
+      "BIS Care"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://www.bis.gov.in/hallmarking-overview/consumer-protection/?lang=en",
+    "chunk": "Consumers can verify hallmark information and use BIS mechanisms for testing and complaint resolution."
+  },
+
+  {
+    "title": "BIS Care App — HUID Verification",
+    "source_type": "application",
+    "category": "Hallmarking",
+    "sub_category": "Verification",
+    "status": "Active",
+    "scope": "The BIS Care application provides consumers with tools including HUID verification for hallmarked jewellery and verification of BIS licence details.",
+    "key_topics": [
+      "BIS Care",
+      "HUID",
+      "hallmarked jewellery",
+      "licence verification",
+      "consumer complaints",
+      "Know Your Standards"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "source_url": "https://www.bis.gov.in/bis-apps/?lang=en",
+    "chunk": "BIS Care provides HUID verification for hallmarked jewellery, licence verification, access to standards information and complaint functionality."
+  },
+
   {
     "standard_code": "IS 8470",
     "title": "Packaging — Complete, Filled Transport Packages and Unit Loads — Dimensions of Rigid Rectangular Packages",
-    "url": "https://standardsbis.bsbedge.com/",
-    "source_type": "standard_metadata",
+    "year": 2018,
+    "revision": "R2023",
     "status": "Active",
-    "version": "2018 (R2023)",
-    "scope": "Packaging — Complete, Filled Transport Packages and Unit Loads — Dimensions of Rigid Rectangular Packages",
-    "chunk": "Packaging — Complete, Filled Transport Packages and Unit Loads — Dimensions of Rigid Rectangular Packages"
+    "source_type": "standard",
+    "category": "Packaging",
+    "sub_category": "Transport Packaging",
+    "scope": "Specifies dimensions relating to rigid rectangular packages and unit loads.",
+    "key_topics": [
+      "packaging",
+      "transport packages",
+      "unit loads",
+      "dimensions",
+      "rigid rectangular packages"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "source_url": "https://standardsbis.bsbedge.com/",
+    "chunk": "IS 8470 covers dimensions of rigid rectangular transport packages and unit loads."
   },
+
   {
     "standard_code": "IS 6192",
     "title": "Textiles — Monoaxially Oriented High Density Polyethylene Tapes — Specification",
-    "url": "https://standardsbis.bsbedge.com/",
-    "source_type": "standard_metadata",
+    "year": 1994,
+    "revision": "R2023",
     "status": "Active",
-    "version": "1994 (R2023)",
-    "scope": "Textiles — Monoaxially Oriented High Density Polyethylene Tapes — Specification",
-    "chunk": "Textiles — Monoaxially Oriented High Density Polyethylene Tapes — Specification"
+    "source_type": "standard",
+    "category": "Textiles",
+    "sub_category": "Polyethylene Tapes",
+    "scope": "Specifies requirements for monoaxially oriented high-density polyethylene tapes used in textile-related applications.",
+    "key_topics": [
+      "textiles",
+      "HDPE",
+      "polyethylene",
+      "tapes",
+      "monoaxially oriented"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "source_url": "https://standardsbis.bsbedge.com/",
+    "chunk": "IS 6192 specifies requirements for monoaxially oriented high-density polyethylene tapes."
   },
+
   {
     "standard_code": "IS 6191 : Part 2",
-    "title": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2 Colour Fastness to Water",
-    "url": "https://standardsbis.bsbedge.com/",
-    "source_type": "standard_metadata",
+    "title": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2: Colour Fastness to Water",
+    "year": 2017,
+    "revision": "R2023",
     "status": "Active",
-    "version": "2017 (R2023)",
-    "scope": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2 Colour Fastness to Water",
-    "chunk": "Methods of Micro-Biological, Colour Fastness and Microscopical Tests for Leather — Part 2 Colour Fastness to Water"
+    "source_type": "standard",
+    "category": "Leather",
+    "sub_category": "Testing",
+    "scope": "Specifies a test method for determining colour fastness of leather to water.",
+    "key_topics": [
+      "leather",
+      "colour fastness",
+      "water",
+      "testing",
+      "microbiological tests"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://standardsbis.bsbedge.com/",
+    "chunk": "IS 6191 Part 2 specifies methods related to colour fastness testing of leather against water."
   },
+
   {
     "standard_code": "IS 8392",
     "title": "Tungsten Powder for Hardmetals — Specification",
-    "url": "https://standardsbis.bsbedge.com/",
-    "source_type": "standard_metadata",
+    "year": 2023,
+    "revision": "R2024",
     "status": "Active",
-    "version": "2023 (R2024)",
-    "scope": "Tungsten Powder for Hardmetals — Specification",
-    "chunk": "Tungsten Powder for Hardmetals — Specification"
+    "source_type": "standard",
+    "category": "Metals",
+    "sub_category": "Tungsten Powder",
+    "scope": "Specifies requirements for tungsten powder intended for hardmetal applications.",
+    "key_topics": [
+      "tungsten",
+      "tungsten powder",
+      "hardmetals",
+      "powder metallurgy",
+      "metals"
+    ],
+    "authority": "Bureau of Indian Standards",
+    "country": "India",
+    "language": "English",
+    "source_url": "https://standardsbis.bsbedge.com/",
+    "chunk": "IS 8392 specifies requirements for tungsten powder intended for hardmetal applications."
   }
 ]

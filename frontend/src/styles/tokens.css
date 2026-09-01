@@ -1,0 +1,57 @@
+/* MANAK AI Design Tokens */
+:root {
+  /* Surface and Background Layering */
+  --color-pearl: #F7F8FA;          /* Primary page background: soft pearl neutral */
+  --color-pearl-dark: #EDEFF2;     /* Secondary neutral sections */
+  --color-surface: #FFFFFF;        /* Card & elevated content background */
+  --color-surface-subtle: #F4F5F7; /* Secondary section & hover background */
+  --color-surface-hover: #F8F9FA;
+  --color-border: #E2E4E9;         /* Clean crisp border */
+  --color-border-subtle: #ECEEF2;  /* Subtle divider border */
+  --color-border-strong: #D1D5DB;  /* Input/interactive borders */
+  
+  /* Brand Accents */
+  --color-red: #D7193F;            /* Primary Action / Brand Red */
+  --color-red-hover: #BE1435;
+  --color-red-active: #A50F2C;
+  --color-red-light: #FDF2F4;
+  --color-red-border: #F8C3CD;
+  
+  --color-blue: #1677B7;           /* Information / Official Evidence Blue */
+  --color-blue-hover: #125F92;
+  --color-blue-light: #F0F7FC;
+  --color-blue-border: #BCD9EE;
+
+  /* Status Colors */
+  --color-green: #0E8A43;          /* Active / Verified / High status */
+  --color-green-light: #EBF7EF;
+  --color-green-border: #B7E4C7;
+
+  --color-amber: #D97706;          /* Medium confidence / Under Revision */
+  --color-amber-light: #FEF3C7;
+  --color-amber-border: #FDE68A;
+
+  /* Typography Colors */
+  --color-charcoal: #121316;       /* Primary text: dark charcoal */
+  --color-slate: #5E6472;          /* Secondary text: muted slate */
+  --color-muted: #8B92A0;          /* Tertiary / timestamp text */
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* Elevation Shadows */
+  --shadow-2xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-xs: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 18px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+
+  /* Border radius standard */
+  --radius-sm: 0.375rem;   /* 6px */
+  --radius-md: 0.5rem;     /* 8px */
+  --radius-lg: 0.75rem;    /* 12px */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-2xl: 1.25rem;   /* 20px */
+}
